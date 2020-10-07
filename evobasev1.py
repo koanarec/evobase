@@ -8,10 +8,10 @@ import ast
 # This function takes a string representation of a list and then finds all of the elements that have not been calculated
 # for example; "1+1" will turn into 2. It returns a list
 def fix_list(list_to_fix):
-    new = ""
-    bb = copy.deepcopy(list_to_fix)
-    bb = bb.split()
-    for part_of_string_of_list in bb:
+    compiled_string_guts = ""
+    cell_of_string_list = copy.deepcopy(list_to_fix)
+    cell_of_string_list = cell_of_string_list.split()
+    for part_of_string_of_list in cell_of_string_list:
         a_string = str(copy.deepcopy(part_of_string_of_list))
         if a_string[len(a_string) - 2:] == "]]":
             a_string = str(eval(a_string[:len(a_string) - 2])) + "]]"
@@ -23,8 +23,8 @@ def fix_list(list_to_fix):
             a_string = "[" + str(eval(a_string[1:len(a_string) - 1])) + ","
         else:
             a_string = str(eval(a_string[:len(a_string) - 1])) + ","
-        new = new + a_string
-    return ast.literal_eval(new)
+        compiled_string_guts = compiled_string_guts + a_string
+    return ast.literal_eval(compiled_string_guts)
 
 
 # This class holds the each formula to calculate the perimeter and mess about with it
@@ -33,7 +33,7 @@ class Creature:
         self.__guts = guts
 
     def return_fitness(self):
-        #To change what the program will do take the matrix, self.__guts and make it return an integer for how "fit"
+        # To change what the program will do take the matrix, self.__guts and make it return an integer for how "fit"
         # it is
 
         guts = self.__guts
@@ -52,21 +52,21 @@ class Creature:
         saves.close()
 
         a = open('temp.txt', 'r')
-        b = a.readline()
+        creatures_guts = a.readline()
         srr = ""
         lcv = 0
-        for x in b:
-            adds = int(random.randint(-1, 1))
-            if x in "0123456789" and random.randint(0, 100) > 99 and adds != 0:
-                origonal = int(b[lcv])
-                news = int(adds + origonal)
+        for node_in_creatures_guts in creatures_guts:
+            factor_of_node_change = int(random.randint(-1, 1))
+            if node_in_creatures_guts in "0123456789" and random.randint(0, 100) > 99 and factor_of_node_change != 0:
+                origonal = int(creatures_guts[lcv])
+                news = int(factor_of_node_change + origonal)
                 z = str(news)
 
                 srr = srr + z
 
             else:
 
-                z = str(b[lcv])
+                z = str(creatures_guts[lcv])
                 if len(z) > 1:
                     print(z)
                 srr = srr + z
@@ -93,19 +93,17 @@ class Creature:
 
 def print_graph(creatures):
     all_stengths = 0
-    for x in creatures:
-        all_stengths = all_stengths + x.return_fitness()
+    for creature in creatures:
+        all_stengths = all_stengths + creature.return_fitness()
     all_stengths = all_stengths // len(creatures)
-
-    # print(creatures[0].return_fitness())
 
     av_vals.append(all_stengths)
     max_vals.append(creatures[0].return_fitness())
-    alex = (creatures[0].return_fitness())
+    best_cre_fitscore = (creatures[0].return_fitness())
     min_vals.append(creatures[len(creatures) - 1].return_fitness())
 
     plt.plot(max_vals)
-    plt.title(str(alex))
+    plt.title(str(best_cre_fitscore))
     # plt.plot(min_vals)
     # plt.plot(av_vals)
 
@@ -119,20 +117,23 @@ def print_graph(creatures):
 number_of_creatures = 16
 try:
     a = open('peri.txt', 'r')
-    b = a.readline()
-    b = ast.literal_eval(b)
+    cre_for_poplation_generation = a.readline()
+    cre_for_poplation_generation = ast.literal_eval(cre_for_poplation_generation)
     a.close()
 except:
     # 8 = 69
-    seb = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    b = []
-    for x in seb:
-        b.append(seb)
+    creatures_guts_row = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    cre_for_poplation_generation = []
+    for x in creatures_guts_row:
+        cre_for_poplation_generation.append(creatures_guts_row)
+
 creatures = []
+
 lcv = 32
+
 while lcv > 0:
     lcv = lcv - 1
-    creatures.append(Creature(b))
+    creatures.append(Creature(cre_for_poplation_generation))
 
 
 
